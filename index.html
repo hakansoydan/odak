@@ -10,7 +10,6 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <!-- 512x512 İkon (Yüksek Çözünürlüklü Ekranlar ve Masaüstü İçin) -->
     <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
     <script>
         tailwind.config = {
@@ -88,7 +87,6 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Animations */
         .fade-in {
             animation: fadeIn 0.3s ease-in-out;
         }
@@ -98,7 +96,6 @@
                 opacity: 0;
                 transform: translateY(5px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -110,7 +107,6 @@
                 transform: translateY(100%);
                 opacity: 0;
             }
-
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -120,14 +116,6 @@
         .toast-animate {
             animation: slideUp 0.3s ease-out forwards;
         }
-      .nl-wrap, 
-div.nl-wrap,
-[class*="nl-"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
     </style>
 </head>
 
@@ -151,28 +139,22 @@ div.nl-wrap,
 
             <!-- FOCUS TAB -->
             <div id="tab-focus" class="page-section space-y-5 fade-in">
-                <!-- 1. Sadeleştirilmiş Aktif Kitap Kartı -->
                 <div>
-                    <h2
-                        class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex items-center gap-2">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex items-center gap-2">
                         <i class="fa-solid fa-book-open text-accent-blue"></i> Şu Anki Kitap
                     </h2>
                     <div id="focus-book-container"></div>
                 </div>
 
-                <!-- 2. Aktif Film Kartı -->
                 <div class="pt-3 border-t border-navy-700">
-                    <h2
-                        class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex items-center gap-2">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex items-center gap-2">
                         <i class="fa-solid fa-film text-accent-cyan"></i> Bu Pazarki Film
                     </h2>
                     <div id="focus-movie-container"></div>
                 </div>
 
-                <!-- 3. Filmden Sonra Gelen Okuma İlerlemesi / Loading Bar Kartı -->
                 <div class="pt-3 border-t border-navy-700">
-                    <h2
-                        class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex items-center gap-2">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1 flex items-center gap-2">
                         <i class="fa-solid fa-bars-progress text-emerald-400"></i> Okuma İlerlemesi
                     </h2>
                     <div id="focus-progress-container"></div>
@@ -182,8 +164,22 @@ div.nl-wrap,
             <!-- LIBRARY TAB -->
             <div id="tab-library" class="page-section hidden fade-in space-y-6">
 
+                <!-- Toplu Dosya Yükleme Kartı -->
+                <div class="glass-card rounded-2xl p-4 border border-navy-700 shadow-lg">
+                    <h3 class="font-bold text-sm text-slate-300 mb-2 flex items-center gap-2 uppercase tracking-wide">
+                        <i class="fa-solid fa-file-arrow-up text-accent-blue"></i> Dosyadan Toplu Ekle (.txt)
+                    </h3>
+                    <p class="text-[11px] text-slate-400 mb-3 leading-relaxed">
+                        Format: <code class="text-accent-blue bg-navy-900 px-1.5 py-0.5 rounded">Kitap - Yazar</code>[cite: 1] ve <code class="text-accent-cyan bg-navy-900 px-1.5 py-0.5 rounded">---FİLMLER---</code> başlıklarını kullanabilirsin[cite: 1].
+                    </p>
+                    <label class="w-full bg-navy-800 hover:bg-navy-700 border border-accent-blue text-accent-blue font-bold py-2.5 px-4 rounded-xl transition-all text-xs flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                        <i class="fa-solid fa-folder-open"></i> Metin Dosyası Seç ve Yükle
+                        <input type="file" id="batchFileInput" accept=".txt" class="hidden" onchange="handleBatchFileImport(event)">
+                    </label>
+                </div>
+
                 <!-- Tahmini Bitiş Hesaplayıcı Kartı -->
-                <div class="glass-card rounded-2xl p-5 border border-navy-700 shadow-lg mb-2">
+                <div class="glass-card rounded-2xl p-5 border border-navy-700 shadow-lg">
                     <h3 class="font-bold text-sm text-slate-300 mb-4 flex items-center gap-2 uppercase tracking-wide">
                         <i class="fa-solid fa-calculator text-accent-cyan"></i> Tahmini Bitiş Hesaplayıcı
                     </h3>
@@ -198,7 +194,7 @@ div.nl-wrap,
                         </div>
                     </div>
                     <button id="calculateBtn"
-                        class="w-full bg-navy-800 hover:bg-navy-700 border border-accent-cyan text-accent-cyan font-bold py-3 rounded-xl transition-all text-sm shadow-[0_2px_10px_rgba(6,182,212,0.15)] hover:shadow-[0_4px_15px_rgba(6,182,212,0.3)]">
+                        class="w-full bg-navy-800 hover:bg-navy-700 border border-accent-cyan text-accent-cyan font-bold py-3 rounded-xl transition-all text-sm shadow-[0_2px_10px_rgba(6,182,212,0.15)]">
                         Tarihi Hesapla
                     </button>
                     <div id="calcResult" class="hidden mt-4 text-center text-sm font-medium"></div>
@@ -285,27 +281,29 @@ div.nl-wrap,
                         <input type="hidden" id="item-type" value="book">
 
                         <div class="mb-4">
-                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Eser
-                                Adı</label>
+                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide" id="title-label">Kitap Adı</label>
                             <input type="text" id="item-title" required
                                 class="w-full bg-navy-900 border border-navy-700 rounded-xl p-3.5 text-white focus:outline-none focus:border-accent-blue transition-colors shadow-inner"
-                                placeholder="Örn: Dune Mesihi">
+                                placeholder="Örn: Suç ve Ceza">
                         </div>
 
                         <div id="book-fields" class="space-y-4">
+                            <div class="mb-4">
+                                <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Yazar İsmi</label>
+                                <input type="text" id="book-author"
+                                    class="w-full bg-navy-900 border border-navy-700 rounded-xl p-3.5 text-white focus:outline-none focus:border-accent-blue transition-colors shadow-inner"
+                                    placeholder="Örn: Fyodor Dostoyevski">
+                            </div>
                             <div class="flex gap-4">
                                 <div class="flex-1">
-                                    <label
-                                        class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">T.
-                                        Sayfa</label>
+                                    <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">T. Sayfa (İsteğe bağlı)</label>
                                     <input type="number" id="book-total-pages" min="1"
                                         class="w-full bg-navy-900 border border-navy-700 rounded-xl p-3.5 text-white focus:outline-none focus:border-accent-blue transition-colors shadow-inner"
-                                        placeholder="Örn: 350">
+                                        placeholder="Örn: 650">
                                 </div>
                                 <div class="flex-1">
-                                    <label
-                                        class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Sayfa/Gün</label>
-                                    <input type="number" id="book-daily-pages" min="1"
+                                    <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Sayfa/Gün</label>
+                                    <input type="number" id="book-daily-pages" min="1" value="20"
                                         class="w-full bg-navy-900 border border-navy-700 rounded-xl p-3.5 text-white focus:outline-none focus:border-accent-blue transition-colors shadow-inner"
                                         placeholder="Örn: 20">
                                 </div>
@@ -313,7 +311,7 @@ div.nl-wrap,
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-accent-blue hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl mt-4 transition-all shadow-[0_4px_15px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)]">
+                            class="w-full bg-accent-blue hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl mt-4 transition-all shadow-[0_4px_15px_rgba(59,130,246,0.3)]">
                             Kaydet
                         </button>
                     </form>
@@ -331,24 +329,25 @@ div.nl-wrap,
     </div>
 
     <script>
-        // --- State Management ---
-        let state = {books: [], movies: []};
+        let state = { books: [], movies: [] };
 
         function initData() {
             const savedData = localStorage.getItem('kulturOdakProData');
             if (savedData) {
                 state = JSON.parse(savedData);
-                // Eski kayıtlarda okunan sayfa alanı yoksa varsayılan 0 olarak tanımlanır
-                state.books.forEach(b => {if (b.readPages === undefined) b.readPages = 0;});
+                state.books.forEach(b => { 
+                    if (b.readPages === undefined) b.readPages = 0;
+                    if (b.author === undefined) b.author = 'Bilinmiyor';
+                    if (b.totalPages === undefined) b.totalPages = 300;
+                    if (b.dailyPages === undefined) b.dailyPages = 20;
+                });
             } else {
                 state = {
                     books: [
-                        {id: generateId(), title: 'Atomik Alışkanlıklar', totalPages: 320, dailyPages: 15, readPages: 45, status: 'active', dateAdded: new Date().toISOString()},
-                        {id: generateId(), title: 'Otostopçunun Galaksi Rehberi', totalPages: 250, dailyPages: 25, readPages: 0, status: 'pool', dateAdded: new Date().toISOString()}
+                        { id: generateId(), title: 'Suç ve Ceza', author: 'Fyodor Dostoyevski', totalPages: 650, dailyPages: 25, readPages: 45, status: 'active', dateAdded: new Date().toISOString() }
                     ],
                     movies: [
-                        {id: generateId(), title: 'Yıldızlararası (Interstellar)', status: 'active', dateAdded: new Date().toISOString()},
-                        {id: generateId(), title: 'Dövüş Kulübü', status: 'pool', dateAdded: new Date().toISOString()}
+                        { id: generateId(), title: 'Inception', status: 'active', dateAdded: new Date().toISOString() }
                     ]
                 };
                 saveData();
@@ -365,22 +364,21 @@ div.nl-wrap,
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        // --- Core Logic ---
         function calculateCompletionDate(total, daily) {
-            if (!daily || daily <= 0) return 'Belirsiz';
+            if (!daily || daily <= 0 || !total) return 'Belirsiz';
             const daysToFinish = Math.ceil(total / daily);
             const date = new Date();
             date.setDate(date.getDate() + daysToFinish);
-            return date.toLocaleDateString('tr-TR', {day: 'numeric', month: 'long', year: 'numeric'});
+            return date.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
         function setItemActive(type, id) {
             if (type === 'book') {
-                state.books.forEach(b => {if (b.status === 'active') b.status = 'pool';});
+                state.books.forEach(b => { if (b.status === 'active') b.status = 'pool'; });
                 const item = state.books.find(b => b.id === id);
                 if (item) item.status = 'active';
             } else {
-                state.movies.forEach(m => {if (m.status === 'active') m.status = 'pool';});
+                state.movies.forEach(m => { if (m.status === 'active') m.status = 'pool'; });
                 const item = state.movies.find(m => m.id === id);
                 if (item) item.status = 'active';
             }
@@ -391,16 +389,13 @@ div.nl-wrap,
 
         function pickRandom(type) {
             const pool = type === 'book' ? state.books.filter(b => b.status === 'pool') : state.movies.filter(m => m.status === 'pool');
-
             if (pool.length === 0) {
                 showToast(`Listede seçilecek ${type === 'book' ? 'kitap' : 'film'} yok!`);
                 switchTab('library');
                 return;
             }
-
             const randomItem = pool[Math.floor(Math.random() * pool.length)];
             setItemActive(type, randomItem.id);
-
             setTimeout(() => switchTab('focus'), 100);
         }
 
@@ -435,7 +430,6 @@ div.nl-wrap,
         function updateReadProgress(bookId) {
             const inputVal = parseInt(document.getElementById('manualReadInput').value);
             const book = state.books.find(b => b.id === bookId);
-
             if (book) {
                 if (isNaN(inputVal) || inputVal < 0) {
                     showToast("Geçerli bir sayfa sayısı girin!");
@@ -447,12 +441,83 @@ div.nl-wrap,
             }
         }
 
-        // --- UI Navigation ---
-        let currentTab = 'focus';
+        // --- Toplu Dosya Okuma ---
+        function handleBatchFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const lines = content.split(/\r?\n/);
+                
+                let currentSection = 'books';
+                let addedBooksCount = 0;
+                let addedMoviesCount = 0;
+
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (!trimmed) return;
+
+                    if (trimmed.toUpperCase().includes('---KİTAPLAR---') || trimmed.toUpperCase().includes('---KITAPLAR---')) {
+                        currentSection = 'books';
+                        return;
+                    }
+                    if (trimmed.toUpperCase().includes('---FİLMLER---') || trimmed.toUpperCase().includes('---FILMLER---')) {
+                        currentSection = 'movies';
+                        return;
+                    }
+
+                    if (currentSection === 'books') {
+                        const mainParts = trimmed.split('|').map(p => p.trim());
+                        const leftSide = mainParts[0];
+                        
+                        let title = leftSide;
+                        let author = 'Bilinmiyor';
+
+                        if (leftSide.includes('-')) {
+                            const dashParts = leftSide.split('-').map(p => p.trim());
+                            title = dashParts[0];
+                            author = dashParts.slice(1).join(' - ');
+                        }
+
+                        const totalPages = mainParts[1] ? parseInt(mainParts[1]) : 300;
+                        const dailyPages = mainParts[2] ? parseInt(mainParts[2]) : 20;
+
+                        if (!title) return;
+
+                        state.books.push({
+                            id: generateId(),
+                            title,
+                            author,
+                            totalPages,
+                            dailyPages,
+                            readPages: 0,
+                            status: 'pool',
+                            dateAdded: new Date().toISOString()
+                        });
+                        addedBooksCount++;
+                    } else if (currentSection === 'movies') {
+                        state.movies.push({
+                            id: generateId(),
+                            title: trimmed,
+                            status: 'pool',
+                            dateAdded: new Date().toISOString()
+                        });
+                        addedMoviesCount++;
+                    }
+                });
+
+                saveData();
+                showToast(`Başarıyla ${addedBooksCount} kitap, ${addedMoviesCount} film eklendi!`);
+                event.target.value = '';
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        let currentTab = 'focus';
         function switchTab(tab) {
             currentTab = tab;
-
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`tab-${tab}`).classList.remove('hidden');
 
@@ -474,7 +539,6 @@ div.nl-wrap,
             }
         }
 
-        // --- Modal Logic ---
         const modal = document.getElementById('item-modal');
         const modalContent = document.getElementById('modal-content');
         const form = document.getElementById('item-form');
@@ -484,20 +548,22 @@ div.nl-wrap,
         const bookFields = document.getElementById('book-fields');
         const typeSelector = document.getElementById('type-selector');
 
-        document.getElementById('add-btn').addEventListener('click', () => {
-            openModal('book');
-        });
+        document.getElementById('add-btn').addEventListener('click', () => { openModal('book'); });
 
         function setFormType(type) {
             typeInput.value = type;
             if (type === 'book') {
                 bookFields.classList.remove('hidden');
+                document.getElementById('title-label').innerText = 'Kitap Adı';
+                titleInput.placeholder = 'Örn: Suç ve Ceza';
                 document.getElementById('btn-type-book').className = 'flex-1 py-2 text-sm font-bold rounded-lg bg-accent-blue text-white transition-colors';
                 document.getElementById('btn-type-movie').className = 'flex-1 py-2 text-sm font-bold rounded-lg text-slate-400 hover:text-white transition-colors';
-                document.getElementById('book-total-pages').required = true;
-                document.getElementById('book-daily-pages').required = true;
+                document.getElementById('book-total-pages').required = false;
+                document.getElementById('book-daily-pages').required = false;
             } else {
                 bookFields.classList.add('hidden');
+                document.getElementById('title-label').innerText = 'Film Adı';
+                titleInput.placeholder = 'Örn: Inception';
                 document.getElementById('btn-type-movie').className = 'flex-1 py-2 text-sm font-bold rounded-lg bg-accent-cyan text-white transition-colors';
                 document.getElementById('btn-type-book').className = 'flex-1 py-2 text-sm font-bold rounded-lg text-slate-400 hover:text-white transition-colors';
                 document.getElementById('book-total-pages').required = false;
@@ -516,8 +582,9 @@ div.nl-wrap,
                 if (type === 'book') {
                     const book = state.books.find(b => b.id === id);
                     titleInput.value = book.title;
-                    document.getElementById('book-total-pages').value = book.totalPages;
-                    document.getElementById('book-daily-pages').value = book.dailyPages;
+                    document.getElementById('book-author').value = book.author || '';
+                    document.getElementById('book-total-pages').value = book.totalPages || '';
+                    document.getElementById('book-daily-pages').value = book.dailyPages || 20;
                 } else {
                     const movie = state.movies.find(m => m.id === id);
                     titleInput.value = movie.title;
@@ -547,21 +614,22 @@ div.nl-wrap,
             const title = titleInput.value.trim();
 
             if (type === 'book') {
-                const totalPages = parseInt(document.getElementById('book-total-pages').value);
-                const dailyPages = parseInt(document.getElementById('book-daily-pages').value);
+                const author = document.getElementById('book-author').value.trim() || 'Bilinmiyor';
+                const totalPages = parseInt(document.getElementById('book-total-pages').value) || 300;
+                const dailyPages = parseInt(document.getElementById('book-daily-pages').value) || 20;
 
                 if (id) {
                     const idx = state.books.findIndex(b => b.id === id);
-                    state.books[idx] = {...state.books[idx], title, totalPages, dailyPages};
+                    state.books[idx] = { ...state.books[idx], title, author, totalPages, dailyPages };
                 } else {
-                    state.books.push({id: generateId(), title, totalPages, dailyPages, readPages: 0, status: 'pool', dateAdded: new Date().toISOString()});
+                    state.books.push({ id: generateId(), title, author, totalPages, dailyPages, readPages: 0, status: 'pool', dateAdded: new Date().toISOString() });
                 }
             } else {
                 if (id) {
                     const idx = state.movies.findIndex(m => m.id === id);
-                    state.movies[idx] = {...state.movies[idx], title};
+                    state.movies[idx] = { ...state.movies[idx], title };
                 } else {
-                    state.movies.push({id: generateId(), title, status: 'pool', dateAdded: new Date().toISOString()});
+                    state.movies.push({ id: generateId(), title, status: 'pool', dateAdded: new Date().toISOString() });
                 }
             }
 
@@ -570,7 +638,6 @@ div.nl-wrap,
             showToast('Başarıyla kaydedildi');
         }
 
-        // --- Toast UI ---
         let toastTimeout;
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -585,7 +652,6 @@ div.nl-wrap,
             }, 3000);
         }
 
-        // --- Renderers ---
         function renderAll() {
             renderFocus();
             renderLibrary();
@@ -600,7 +666,6 @@ div.nl-wrap,
             const movieCont = document.getElementById('focus-movie-container');
             const progressCont = document.getElementById('focus-progress-container');
 
-            // 1. Sadeleştirilmiş Kitap Kartı
             if (activeBook) {
                 const finishDate = calculateCompletionDate(activeBook.totalPages, activeBook.dailyPages);
                 bookCont.innerHTML = `
@@ -608,18 +673,17 @@ div.nl-wrap,
                     <div class="flex justify-between items-start mb-3">
                         <div>
                             <h3 class="font-bold text-lg text-white leading-tight">${activeBook.title}</h3>
+                            <p class="text-xs text-accent-cyan mt-0.5 font-medium">${activeBook.author || 'Bilinmiyor'}</p>
                             <p class="text-xs text-slate-400 mt-1">
                                 <i class="fa-regular fa-calendar-check text-accent-blue mr-1"></i>Tahmini Bitiş: <strong class="text-white">${finishDate}</strong>
                             </p>
                         </div>
                         <button onclick="openModal('book', '${activeBook.id}')" class="text-slate-500 hover:text-accent-blue transition-colors p-1"><i class="fa-solid fa-pen text-sm"></i></button>
                     </div>
-                    
                     <button onclick="markAsArchived('book', '${activeBook.id}')" class="w-full bg-accent-blue hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-[0_4px_15px_rgba(59,130,246,0.3)]">
                         <i class="fa-solid fa-check-double"></i> Okundu İşaretle
                     </button>
-                </div>
-            `;
+                </div>`;
             } else {
                 bookCont.innerHTML = `
                 <div class="glass-card rounded-2xl p-5 text-center border-dashed border-2 border-navy-700">
@@ -627,11 +691,9 @@ div.nl-wrap,
                     <button onclick="pickRandom('book')" class="bg-navy-800 hover:bg-navy-700 border border-accent-blue text-accent-blue font-bold py-2 px-4 rounded-xl transition-all text-xs">
                         <i class="fa-solid fa-shuffle mr-1.5"></i>Rastgele Seç
                     </button>
-                </div>
-            `;
+                </div>`;
             }
 
-            // 2. Film Kartı
             if (activeMovie) {
                 movieCont.innerHTML = `
                 <div class="glass-card rounded-2xl p-4 shadow-lg border-t-2 border-t-accent-cyan">
@@ -639,12 +701,10 @@ div.nl-wrap,
                         <h3 class="font-bold text-lg text-white leading-tight pr-2">${activeMovie.title}</h3>
                         <button onclick="openModal('movie', '${activeMovie.id}')" class="text-slate-500 hover:text-accent-cyan transition-colors shrink-0"><i class="fa-solid fa-pen text-sm"></i></button>
                     </div>
-                    
                     <button onclick="markAsArchived('movie', '${activeMovie.id}')" class="w-full bg-accent-cyan hover:bg-cyan-500 text-white font-bold py-2.5 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-[0_4px_15px_rgba(6,182,212,0.3)]">
                         <i class="fa-solid fa-check-double"></i> İzlendi İşaretle
                     </button>
-                </div>
-            `;
+                </div>`;
             } else {
                 movieCont.innerHTML = `
                 <div class="glass-card rounded-2xl p-5 text-center border-dashed border-2 border-navy-700">
@@ -652,14 +712,12 @@ div.nl-wrap,
                     <button onclick="pickRandom('movie')" class="bg-navy-800 hover:bg-navy-700 border border-accent-cyan text-accent-cyan font-bold py-2 px-4 rounded-xl transition-all text-xs">
                         <i class="fa-solid fa-shuffle mr-1.5"></i>Rastgele Seç
                     </button>
-                </div>
-            `;
+                </div>`;
             }
 
-            // 3. Filmden Sonra Gelen Okuma İlerlemesi Kartı
             if (activeBook) {
                 const read = activeBook.readPages || 0;
-                const total = activeBook.totalPages || 1;
+                const total = activeBook.totalPages || 300;
                 const percent = Math.min(100, Math.round((read / total) * 100));
 
                 progressCont.innerHTML = `
@@ -668,27 +726,21 @@ div.nl-wrap,
                         <span class="text-xs font-bold text-slate-300 truncate max-w-[200px]">${activeBook.title}</span>
                         <span class="text-xs font-bold text-emerald-400">${read} / ${total} syf (%${percent})</span>
                     </div>
-                    
-                    <!-- Loading / Progress Bar -->
                     <div class="w-full bg-navy-900 rounded-full h-3 overflow-hidden border border-navy-700 mb-4 p-0.5">
                         <div class="bg-gradient-to-r from-accent-blue to-emerald-400 h-full rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" style="width: ${percent}%"></div>
                     </div>
-
-                    <!-- Manuel Girdi Alanı -->
                     <div class="flex gap-2 items-center">
                         <input type="number" id="manualReadInput" value="${read}" min="0" max="${total}" class="flex-1 bg-navy-900 border border-navy-700 rounded-xl p-2.5 text-white text-xs focus:outline-none focus:border-emerald-400 text-center font-bold" placeholder="Okunan Sayfa">
                         <button onclick="updateReadProgress('${activeBook.id}')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-1.5 shadow-[0_2px_10px_rgba(16,185,129,0.3)] shrink-0">
                             <i class="fa-solid fa-rotate"></i> Güncelle
                         </button>
                     </div>
-                </div>
-            `;
+                </div>`;
             } else {
                 progressCont.innerHTML = `
                 <div class="glass-card rounded-2xl p-4 text-center border border-navy-700">
                     <p class="text-slate-500 text-xs italic">Okuma ilerlemesini görmek için kütüphaneden bir kitap odaklayın.</p>
-                </div>
-            `;
+                </div>`;
             }
         }
 
@@ -702,32 +754,36 @@ div.nl-wrap,
             const bookList = document.getElementById('library-books-list');
             const movieList = document.getElementById('library-movies-list');
 
-            bookList.innerHTML = poolBooks.length ? poolBooks.map(book => `
+            // Kitap Listesi (Sıra Numaralı)
+            bookList.innerHTML = poolBooks.length ? poolBooks.map((book, index) => `
             <div class="bg-navy-800 rounded-xl p-4 border border-navy-700 flex justify-between items-center group">
-                <div class="flex-1 pr-3">
-                    <h4 class="font-bold text-white text-sm mb-1">${book.title}</h4>
-                    <span class="text-xs text-slate-500"><i class="fa-regular fa-file-lines mr-1"></i>${book.totalPages} Syf</span>
+                <div class="flex items-center gap-3 overflow-hidden pr-3">
+                    <span class="text-xs font-bold text-slate-400 bg-navy-900 px-2 py-1 rounded border border-navy-700 min-w-[28px] text-center shrink-0">${index + 1}</span>
+                    <div class="truncate">
+                        <h4 class="font-bold text-white text-sm mb-0.5 truncate">${book.title}</h4>
+                        <p class="text-xs text-accent-cyan font-medium truncate">${book.author || 'Bilinmiyor'}</p>
+                    </div>
                 </div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 shrink-0">
                     <button onclick="openModal('book', '${book.id}')" class="w-8 h-8 rounded-lg bg-navy-900 text-slate-400 hover:text-white flex items-center justify-center transition-colors" title="Düzenle"><i class="fa-solid fa-pen text-xs"></i></button>
                     <button onclick="deleteItem('book', '${book.id}')" class="w-8 h-8 rounded-lg bg-navy-900 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-colors" title="Sil"><i class="fa-solid fa-trash-can text-xs"></i></button>
                     <button onclick="setItemActive('book', '${book.id}')" class="w-8 h-8 rounded-lg bg-accent-blue text-white flex items-center justify-center transition-colors shadow-lg ml-1" title="Odakla"><i class="fa-solid fa-crosshairs text-xs"></i></button>
                 </div>
-            </div>
-        `).join('') : `<div class="text-center p-4 border border-dashed border-navy-700 rounded-xl"><p class="text-xs text-slate-500 italic">Kütüphane boş. Yeni kitap ekleyin.</p></div>`;
+            </div>`).join('') : `<div class="text-center p-4 border border-dashed border-navy-700 rounded-xl"><p class="text-xs text-slate-500 italic">Kütüphane boş. Yeni kitap ekleyin.</p></div>`;
 
-            movieList.innerHTML = poolMovies.length ? poolMovies.map(movie => `
+            // Film Listesi (Sıra Numaralı)
+            movieList.innerHTML = poolMovies.length ? poolMovies.map((movie, index) => `
             <div class="bg-navy-800 rounded-xl p-4 border border-navy-700 flex justify-between items-center group">
-                <div class="flex-1 pr-3">
-                    <h4 class="font-bold text-white text-sm mb-1">${movie.title}</h4>
+                <div class="flex items-center gap-3 overflow-hidden pr-3">
+                    <span class="text-xs font-bold text-slate-400 bg-navy-900 px-2 py-1 rounded border border-navy-700 min-w-[28px] text-center shrink-0">${index + 1}</span>
+                    <h4 class="font-bold text-white text-sm truncate">${movie.title}</h4>
                 </div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 shrink-0">
                     <button onclick="openModal('movie', '${movie.id}')" class="w-8 h-8 rounded-lg bg-navy-900 text-slate-400 hover:text-white flex items-center justify-center transition-colors" title="Düzenle"><i class="fa-solid fa-pen text-xs"></i></button>
                     <button onclick="deleteItem('movie', '${movie.id}')" class="w-8 h-8 rounded-lg bg-navy-900 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-colors" title="Sil"><i class="fa-solid fa-trash-can text-xs"></i></button>
                     <button onclick="setItemActive('movie', '${movie.id}')" class="w-8 h-8 rounded-lg bg-accent-cyan text-white flex items-center justify-center transition-colors shadow-lg ml-1" title="Odakla"><i class="fa-solid fa-crosshairs text-xs"></i></button>
                 </div>
-            </div>
-        `).join('') : `<div class="text-center p-4 border border-dashed border-navy-700 rounded-xl"><p class="text-xs text-slate-500 italic">Kütüphane boş. Yeni film ekleyin.</p></div>`;
+            </div>`).join('') : `<div class="text-center p-4 border border-dashed border-navy-700 rounded-xl"><p class="text-xs text-slate-500 italic">Kütüphane boş. Yeni film ekleyin.</p></div>`;
         }
 
         function renderArchive() {
@@ -737,49 +793,44 @@ div.nl-wrap,
             const bookList = document.getElementById('archive-books-list');
             const movieList = document.getElementById('archive-movies-list');
 
-            // Biten Kitaplarda Sıra Numarası (# işareti kaldırıldı)
             bookList.innerHTML = archBooks.length ? archBooks.map((book, index) => `
-        <div class="bg-navy-900 rounded-xl p-3 border border-navy-800 flex justify-between items-center opacity-70 hover:opacity-100 transition-opacity">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <span class="text-xs font-bold text-slate-400 bg-navy-800 px-2 py-0.5 rounded border border-navy-700 min-w-[28px] text-center">${index + 1}</span>
-                <i class="fa-solid fa-check-double text-accent-blue text-xs"></i>
-                <span class="text-slate-400 line-through decoration-slate-500 decoration-2 text-sm truncate font-medium">${book.title}</span>
-            </div>
-            <div class="flex items-center gap-1 shrink-0 ml-2">
-                <button onclick="restoreItem('book', '${book.id}')" class="p-2 text-slate-500 hover:text-accent-blue transition-colors" title="Listeye Geri Al"><i class="fa-solid fa-rotate-left"></i></button>
-                <button onclick="deleteItem('book', '${book.id}')" class="p-2 text-slate-500 hover:text-red-500 transition-colors" title="Kalıcı Sil"><i class="fa-solid fa-trash-can"></i></button>
-            </div>
-        </div>
-    `).join('') : `<p class="text-xs text-slate-600 italic">Henüz biten kitap yok.</p>`;
+            <div class="bg-navy-900 rounded-xl p-3 border border-navy-800 flex justify-between items-center opacity-70 hover:opacity-100 transition-opacity">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <span class="text-xs font-bold text-slate-400 bg-navy-800 px-2 py-0.5 rounded border border-navy-700 min-w-[28px] text-center">${index + 1}</span>
+                    <i class="fa-solid fa-check-double text-accent-blue text-xs"></i>
+                    <div class="truncate">
+                        <span class="text-slate-400 line-through decoration-slate-500 decoration-2 text-sm font-medium">${book.title}</span>
+                        <span class="text-xs text-slate-500 ml-1">(${book.author || 'Bilinmiyor'})</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0 ml-2">
+                    <button onclick="restoreItem('book', '${book.id}')" class="p-2 text-slate-500 hover:text-accent-blue transition-colors" title="Listeye Geri Al"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button onclick="deleteItem('book', '${book.id}')" class="p-2 text-slate-500 hover:text-red-500 transition-colors" title="Kalıcı Sil"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>`).join('') : `<p class="text-xs text-slate-600 italic">Henüz biten kitap yok.</p>`;
 
-            // İzlenen Filmlerde Sıra Numarası (# işareti kaldırıldı)
             movieList.innerHTML = archMovies.length ? archMovies.map((movie, index) => `
-        <div class="bg-navy-900 rounded-xl p-3 border border-navy-800 flex justify-between items-center opacity-70 hover:opacity-100 transition-opacity">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <span class="text-xs font-bold text-slate-400 bg-navy-800 px-2 py-0.5 rounded border border-navy-700 min-w-[28px] text-center">${index + 1}</span>
-                <i class="fa-solid fa-check-double text-accent-cyan text-xs"></i>
-                <span class="text-slate-400 line-through decoration-slate-500 decoration-2 text-sm truncate font-medium">${movie.title}</span>
-            </div>
-            <div class="flex items-center gap-1 shrink-0 ml-2">
-                <button onclick="restoreItem('movie', '${movie.id}')" class="p-2 text-slate-500 hover:text-accent-cyan transition-colors" title="Listeye Geri Al"><i class="fa-solid fa-rotate-left"></i></button>
-                <button onclick="deleteItem('movie', '${movie.id}')" class="p-2 text-slate-500 hover:text-red-500 transition-colors" title="Kalıcı Sil"><i class="fa-solid fa-trash-can"></i></button>
-            </div>
-        </div>
-    `).join('') : `<p class="text-xs text-slate-600 italic">Henüz izlenen film yok.</p>`;
+            <div class="bg-navy-900 rounded-xl p-3 border border-navy-800 flex justify-between items-center opacity-70 hover:opacity-100 transition-opacity">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <span class="text-xs font-bold text-slate-400 bg-navy-800 px-2 py-0.5 rounded border border-navy-700 min-w-[28px] text-center">${index + 1}</span>
+                    <i class="fa-solid fa-check-double text-accent-cyan text-xs"></i>
+                    <span class="text-slate-400 line-through decoration-slate-500 decoration-2 text-sm truncate font-medium">${movie.title}</span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0 ml-2">
+                    <button onclick="restoreItem('movie', '${movie.id}')" class="p-2 text-slate-500 hover:text-accent-cyan transition-colors" title="Listeye Geri Al"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button onclick="deleteItem('movie', '${movie.id}')" class="p-2 text-slate-500 hover:text-red-500 transition-colors" title="Kalıcı Sil"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>`).join('') : `<p class="text-xs text-slate-600 italic">Henüz izlenen film yok.</p>`;
         }
 
-        // Initialize Application and Calculator Logic
         document.addEventListener('DOMContentLoaded', () => {
             initData();
-
-            // Hesaplayıcı Etkileşim Kodları
             const calcBtn = document.getElementById('calculateBtn');
             if (calcBtn) {
                 calcBtn.addEventListener('click', function () {
                     const totalPages = parseInt(document.getElementById('calcTotalPages').value);
                     const dailyPages = parseInt(document.getElementById('calcDailyPages').value);
                     const resultDiv = document.getElementById('calcResult');
-
                     resultDiv.classList.remove('hidden');
 
                     if (isNaN(totalPages) || isNaN(dailyPages) || dailyPages <= 0 || totalPages <= 0) {
@@ -789,22 +840,15 @@ div.nl-wrap,
                     }
 
                     const daysNeeded = Math.ceil(totalPages / dailyPages);
-
                     const finishDate = new Date();
                     finishDate.setDate(finishDate.getDate() + daysNeeded);
-
-                    const formattedDate = finishDate.toLocaleDateString('tr-TR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
+                    const formattedDate = finishDate.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' });
 
                     resultDiv.className = 'mt-3 text-center text-sm font-medium text-accent-cyan bg-navy-900/50 p-3 rounded-lg border border-navy-700 shadow-inner';
                     resultDiv.innerHTML = `Hedefinize göre <strong>${daysNeeded} gün</strong> içinde bitireceksiniz.<br><span class="text-white mt-1.5 inline-block"><i class="fa-regular fa-calendar-check mr-1 text-accent-blue"></i> ${formattedDate}</span>`;
                 });
             }
         });
-
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -813,9 +857,6 @@ div.nl-wrap,
                     .catch(err => console.log('PWA Hata:', err));
             });
         }
-
-
-
     </script>
 </body>
 
